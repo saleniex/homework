@@ -2,7 +2,6 @@
 
 require_once 'Logger.php';
 
-// test
 
 function process()
 {
