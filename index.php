@@ -2,7 +2,9 @@
 
 require_once 'Logger.php';
 
-// test
+
+// Do not change this file
+
 
 function process()
 {
