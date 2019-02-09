@@ -10,7 +10,7 @@ class Logger
 
     public function logError($message)
     {
-        $logFile = fopen('application.log', 'w');
+        $logFile = fopen('application.log', 'a');
         fwrite($logFile, 'ERROR: ' . $message);
         fclose($logFile);
     }
