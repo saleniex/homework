@@ -10,15 +10,18 @@ class Logger
 
     public function logError($message)
     {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
+        $this->logMessage('ERROR: ' . $message);
     }
 
     public function logSuccess($message)
     {
+        $this->logMessage('SUCCESS: ' . $message);
+    }
+
+    protected function logMessage($message)
+    {
         $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $message);
+        fwrite($logFile, $message . "\n");
         fclose($logFile);
     }
 }
