@@ -3,8 +3,18 @@
 require_once 'AbstractOutput.php';
 require_once 'LogLevel.php';
 
+/**
+ * Output to CLI console.
+ */
 class ConsoleOutput extends AbstractOutput
 {
+    /**
+     * Outputs message.
+     *
+     * @param $message
+     * @param $level
+     * @return void
+     */
     public function write($message, $level)
     {
         $stream = $this->openStream($level);
@@ -15,12 +25,25 @@ class ConsoleOutput extends AbstractOutput
         fclose($stream);
     }
 
+    /**
+     * Opens level specific output stream.
+     *
+     * @param $level
+     * @return resource
+     */
     private function openStream($level)
     {
         $stream = $level == LogLevel::ERROR ? 'php://stderr' : 'php://stdout';
         return fopen($stream, 'w');
     }
 
+    /**
+     * Formats message color if error.
+     *
+     * @param $message
+     * @param $level
+     * @return string
+     */
     private function prepareMessage($message, $level)
     {
         if ($level == LogLevel::ERROR) {
