@@ -19,5 +19,6 @@ class Logger
     {
         $logFile = fopen('application.log', 'a');
         fwrite($logFile, 'SUCCESS: ' . $message);
+        fclose($logFile);
     }
 }
