@@ -1,11 +1,10 @@
 <?php
 
 require_once 'AbstractOutput.php';
+require_once 'LogLevel.php';
 
 class ConsoleOutput extends AbstractOutput
 {
-    const ERROR = 'error';
-
     public function write($message, $level)
     {
         $stream = $this->openStream($level);
@@ -18,13 +17,13 @@ class ConsoleOutput extends AbstractOutput
 
     private function openStream($level)
     {
-        $stream = $level == self::ERROR ? 'php://stderr' : 'php://stdout';
+        $stream = $level == LogLevel::ERROR ? 'php://stderr' : 'php://stdout';
         return fopen($stream, 'w');
     }
 
     private function prepareMessage($message, $level)
     {
-        if ($level == self::ERROR) {
+        if ($level == LogLevel::ERROR) {
             $message = sprintf("\033[01;31m%s\033[0m", $message);
         }
         return $message;
