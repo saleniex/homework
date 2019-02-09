@@ -1,21 +1,12 @@
 <?php
 
+require_once 'AbstractLogger.php';
 
-class Logger
+class Logger extends AbstractLogger
 {
     public static function get()
     {
         return new Logger();
-    }
-
-    public function logError($message)
-    {
-        $this->logMessage('ERROR: ' . $message);
-    }
-
-    public function logSuccess($message)
-    {
-        $this->logMessage('SUCCESS: ' . $message);
     }
 
     protected function logMessage($message)
