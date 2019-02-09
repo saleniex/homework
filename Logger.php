@@ -15,9 +15,9 @@ class Logger
         fclose($logFile);
     }
 
-    public function logSuccess($msg)
+    public function logSuccess($message)
     {
         $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
+        fwrite($logFile, 'SUCCESS: ' . $message);
     }
 }
