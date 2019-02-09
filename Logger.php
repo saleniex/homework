@@ -9,10 +9,11 @@ class Logger extends AbstractLogger
         return new Logger();
     }
 
-    protected function logMessage($message)
+    public function logMessage($level, $message)
     {
         $logFile = fopen('application.log', 'a');
-        fwrite($logFile, $message . "\n");
+        $message = strtoupper($level) . ': ' . $message . "\n";
+        fwrite($logFile, $message);
         fclose($logFile);
     }
 }
