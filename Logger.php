@@ -3,8 +3,8 @@
 
 class Logger
 {
-    private const ERROR = "ERROR";
-    private const SUCCESS = "SUCCESS";
+    const ERROR = "ERROR";
+    const SUCCESS = "SUCCESS";
 
     private $logFileLocation = __DIR__. '/' . 'application_logs.log';
     private $logToConsole;
