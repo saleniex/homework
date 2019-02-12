@@ -7,13 +7,14 @@ class Logger
     private const SUCCESS = "SUCCESS";
 
     private $logFileLocation = __DIR__. '/' . 'application_logs.log';
+    private $logToConsole;
 
     /**
      * @param string|null $logFileLocation
      */
-    public static function get($logFileLocation = null)
+    public static function get($logFileLocation = null, $logToConsole = false)
     {
-        return new Logger($logFileLocation);
+        return new Logger($logFileLocation, $logToConsole);
     }
 
     /**
@@ -21,12 +22,14 @@ class Logger
      * __DIR__ . 'application_logs.log' 
      * 
      * @param string|null $logFileLocation
+     * @param bool $logToConsole
      */
-    public function __construct($logFileLocation)
+    public function __construct($logFileLocation, $logToConsole)
     {
         if (isset($logFileLocation)) {
             $this->logFileLocation = logFileLocation;
         }
+        $this->logToConsole = $logToConsole;
     }
 
     /**
@@ -34,7 +37,7 @@ class Logger
      */
     public function logError($message)
     {
-        $this->writeToFile($message, self::ERROR);
+        $this->writeALog($message, self::ERROR);
     }
 
     /**
@@ -42,17 +45,31 @@ class Logger
      */
     public function logSuccess($message)
     {
-        $this->writeToFile($message, self::SUCCESS);
+        $this->writeALog($message, self::SUCCESS);
+    }
+
+    /**
+     * @param bool $logToConsole
+     */
+    public function setOutputToConsole($logToConsole)
+    {
+        $this->logToConsole = $logToConsole;
     }
 
     /**
      * @param string $message
      * @param string $status
      */
-    private function writeToFile($message, $status)
+    private function writeALog($message, $status)
     {
-        $logFile = fopen($this->logFileLocation, 'a');
-        fwrite($logFile, $status. ': ' . $message . PHP_EOL);
-        fclose($logFile);
+        $fullMessage = $status. ': ' . $message . PHP_EOL;
+
+        if (true == $this->logToConsole) {
+            echo $fullMessage;
+        } else {
+            $logFile = fopen($this->logFileLocation, 'a');
+            fwrite($logFile, $fullMessage);
+            fclose($logFile);
+        }
     }
 }
