@@ -27,7 +27,7 @@ class Logger
     public function __construct($logFileLocation, $logToConsole)
     {
         if (isset($logFileLocation)) {
-            $this->logFileLocation = logFileLocation;
+            $this->logFileLocation = $logFileLocation;
         }
         $this->logToConsole = $logToConsole;
     }
