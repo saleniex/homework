@@ -62,7 +62,8 @@ class Logger
      */
     private function writeALog($message, $status)
     {
-        $fullMessage = $status. ': ' . $message . PHP_EOL;
+        $date = new DateTime();
+        $fullMessage = $status. ': ' . $message . ' ' . $date->format('Y-m-d H:i:s') . PHP_EOL;
 
         if (true == $this->logToConsole) {
             echo $fullMessage;
