@@ -17,24 +17,23 @@ class ConsoleOutput extends AbstractOutput
      */
     public function write($message, $level)
     {
-        $stream = $this->openStream($level);
         $message = $this->prepareMessage($message, $level);
 
         $message = $message . "\n";
+        $stream = fopen($this->getStream($level), 'w');
         fwrite($stream, $message);
         fclose($stream);
     }
 
     /**
-     * Opens level specific output stream.
+     * Returns level specific output stream.
      *
      * @param $level
-     * @return resource
+     * @return string
      */
-    private function openStream($level)
+    private function getStream($level)
     {
-        $stream = $level == LogLevel::ERROR ? 'php://stderr' : 'php://stdout';
-        return fopen($stream, 'w');
+        return $level == LogLevel::ERROR ? 'php://stderr' : 'php://stdout';
     }
 
     /**
