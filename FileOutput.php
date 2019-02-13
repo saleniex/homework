@@ -12,7 +12,7 @@ class FileOutput extends AbstractOutput
      *
      * @var string
      */
-    protected $file;
+    private $file;
 
     /**
      * @param string $file File to write messages
