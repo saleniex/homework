@@ -9,6 +9,11 @@ require_once 'InvalidArgumentException.php';
  */
 class Logger extends AbstractLogger
 {
+    /**
+     * Output instance.
+     *
+     * @var OutputInterface
+     */
     private $output;
 
     /**

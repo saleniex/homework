@@ -7,6 +7,11 @@ require_once 'AbstractOutput.php';
  */
 class FileOutput extends AbstractOutput
 {
+    /**
+     * Output file path.
+     *
+     * @var string
+     */
     protected $file;
 
     /**
