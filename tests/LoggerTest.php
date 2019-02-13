@@ -47,4 +47,13 @@ class LoggerTest extends TestCase
             LogLevel::SUCCESS => [LogLevel::SUCCESS, 'Message of level success'],
         ];
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testThrowsExceptionOnInvalidLevel()
+    {
+        $logger = new Logger(new DummyOutput);
+        $logger->logMessage('invalid level', 'Message');
+    }
 }

@@ -2,6 +2,7 @@
 
 require_once 'AbstractLogger.php';
 require_once 'FileOutput.php';
+require_once 'InvalidArgumentException.php';
 
 /**
  * Message logger.
@@ -9,6 +10,16 @@ require_once 'FileOutput.php';
 class Logger extends AbstractLogger
 {
     private $output;
+
+    /**
+     * List of valid log levels.
+     *
+     * @var array
+     */
+    private $levels = [
+        LogLevel::ERROR,
+        LogLevel::SUCCESS,
+    ];
 
     /**
      * @param OutputInterface $output
@@ -37,6 +48,10 @@ class Logger extends AbstractLogger
      */
     public function logMessage($level, $message)
     {
+        if (!in_array($level, $this->levels)) {
+            throw new InvalidArgumentException(sprintf('Invalid log level: %s.', $level));
+        }
+
         $message = $this->formatMessage($message, $level);
         $this->output->write($message, $level);
     }
