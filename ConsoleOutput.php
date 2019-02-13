@@ -17,10 +17,10 @@ class ConsoleOutput extends AbstractOutput
      */
     public function write($message, $level)
     {
-        $message = $this->prepareMessage($message, $level);
+        $message = $this->decorateMessage($message, $level);
 
-        $message = $message . "\n";
         $stream = fopen($this->getStream($level), 'w');
+        $message .= "\n";
         fwrite($stream, $message);
         fclose($stream);
     }
@@ -43,7 +43,7 @@ class ConsoleOutput extends AbstractOutput
      * @param $level
      * @return string
      */
-    private function prepareMessage($message, $level)
+    private function decorateMessage($message, $level)
     {
         if ($level == LogLevel::ERROR) {
             $message = sprintf("\033[01;31m%s\033[0m", $message);

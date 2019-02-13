@@ -37,6 +37,19 @@ class Logger extends AbstractLogger
      */
     public function logMessage($level, $message)
     {
+        $message = $this->formatMessage($message, $level);
         $this->output->write($message, $level);
+    }
+
+    /**
+     * Adds level prefix to message.
+     *
+     * @param $message
+     * @param $level
+     * @return string
+     */
+    private function formatMessage($message, $level)
+    {
+        return strtoupper($level) . ': ' . $message;
     }
 }

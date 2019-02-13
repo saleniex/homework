@@ -27,7 +27,7 @@ class FileOutput extends AbstractOutput
     public function write($message, $level)
     {
         $file = fopen($this->file, 'a');
-        $message = strtoupper($level) . ': ' . $message . "\n";
+        $message .= "\n";
         fwrite($file, $message);
         fclose($file);
     }
