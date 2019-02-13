@@ -2,6 +2,8 @@
 
 require_once 'AbstractOutput.php';
 require_once 'LogLevel.php';
+require_once 'InvalidArgumentException.php';
+require_once 'OutputException.php';
 
 /**
  * Output to CLI console.
@@ -9,31 +11,41 @@ require_once 'LogLevel.php';
 class ConsoleOutput extends AbstractOutput
 {
     /**
+     * Output stream map.
+     *
+     * @var array
+     */
+    private $streamMap = [
+        LogLevel::ERROR => 'php://stderr',
+        LogLevel::SUCCESS => 'php://stdout',
+    ];
+
+    /**
      * Outputs message.
      *
      * @param $message
      * @param $level
+     * @throws OutputException
      * @return void
      */
     public function write($message, $level)
     {
+        if (!array_key_exists($level, $this->streamMap)) {
+            throw new InvalidArgumentException(sprintf('Invalid console output level: %s.', $level));
+        }
+
+        $stream = @fopen($this->streamMap[$level], 'w');
+        if ($stream === false) {
+            throw new OutputException(sprintf('Unable to open console stream: %s.', $this->streamMap[$level]));
+        }
+
         $message = $this->decorateMessage($message, $level);
-
-        $stream = fopen($this->getStream($level), 'w');
         $message .= "\n";
-        fwrite($stream, $message);
-        fclose($stream);
-    }
 
-    /**
-     * Returns level specific output stream.
-     *
-     * @param $level
-     * @return string
-     */
-    private function getStream($level)
-    {
-        return $level == LogLevel::ERROR ? 'php://stderr' : 'php://stdout';
+        if (@fwrite($stream, $message) === false) {
+            throw new OutputException(sprintf('Unable to write to console stream: %s.', $this->streamMap[$level]));
+        }
+        @fclose($stream);
     }
 
     /**
