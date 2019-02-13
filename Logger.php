@@ -25,7 +25,7 @@ class Logger extends AbstractLogger
      */
     public static function get()
     {
-        return new Logger(new FileOutput('application.log'));
+        return new self(new FileOutput('application.log'));
     }
 
     /**
