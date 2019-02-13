@@ -7,6 +7,8 @@ class FileOutputTest extends TestCase
 {
     private $file = __DIR__ . '/tmp/file.log';
 
+    private $invalidFile = __DIR__ . '/tmp';
+
     public function getOutput()
     {
         return new FileOutput($this->file);
@@ -35,5 +37,14 @@ class FileOutputTest extends TestCase
 
         $expected = 'Message 1' . "\n" . 'Message 2' . "\n";
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @expectedException OutputException
+     */
+    public function testThrowsExceptionOnWriteError()
+    {
+        $output = new FileOutput($this->invalidFile);
+        $output->write('Message', 'level');
     }
 }
