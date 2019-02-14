@@ -2,6 +2,7 @@
 
 require_once 'AbstractLogger.php';
 require_once 'FileOutput.php';
+//require_once 'ConsoleOutput.php';
 
 /**
  * Message logger.
@@ -41,6 +42,7 @@ class Logger extends AbstractLogger
     public static function get()
     {
         return new self(new FileOutput('application.log'));
+//        return new self(new ConsoleOutput);
     }
 
     /**
