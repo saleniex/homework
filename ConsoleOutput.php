@@ -2,7 +2,6 @@
 
 require_once 'AbstractOutput.php';
 require_once 'LogLevel.php';
-require_once 'InvalidArgumentException.php';
 require_once 'OutputException.php';
 
 /**

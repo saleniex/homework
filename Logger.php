@@ -2,7 +2,6 @@
 
 require_once 'AbstractLogger.php';
 require_once 'FileOutput.php';
-require_once 'InvalidArgumentException.php';
 
 /**
  * Message logger.
