@@ -1,8 +1,8 @@
 <?php
 
-require_once 'OutputInterface.php';
+require_once 'AbstractOutput.php';
 
-class LogToFile implements OutputInterface
+class LogToFile extends AbstractOutput
 {
     private $file;
 
@@ -15,8 +15,7 @@ class LogToFile implements OutputInterface
     {
         $logFile = fopen($this->getFile(), 'a');
 
-        fwrite($logFile, strtoupper($type) . ': ' . $message . "\n");
-        fclose($logFile);
+        return $this->output($logFile, $type, $message);
     }
 
     private function getFile()

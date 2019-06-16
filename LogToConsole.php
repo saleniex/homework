@@ -1,8 +1,8 @@
 <?php
 
-require_once 'OutputInterface.php';
+require_once 'AbstractOutput.php';
 
-class LogToConsole implements OutputInterface
+class LogToConsole extends AbstractOutput
 {
     const PHP_OUT = 'php://stdout';
 
@@ -10,8 +10,7 @@ class LogToConsole implements OutputInterface
     {
         $console = $this->getConsoleOutputMethod();
 
-        fwrite($console, strtoupper($type) . ': ' . $message . "\n");
-        fclose($console);
+        return $this->output($console, $type, $message);
     }
 
     private function getConsoleOutputMethod()
