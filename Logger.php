@@ -1,7 +1,7 @@
 <?php
 
 require_once 'AbstractLogger.php';
-require_once 'LogToFile.php';
+require_once 'LogToConsole.php';
 
 class Logger extends AbstractLogger
 {
@@ -14,7 +14,7 @@ class Logger extends AbstractLogger
 
     public static function get()
     {
-        return new Logger(new LogToFile('application.log'));
+        return new Logger(new LogToConsole());
     }
 
     public function getOutput()
