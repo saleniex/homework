@@ -1,23 +1,19 @@
 <?php
 
+require_once 'AbstractLogger.php';
 
-class Logger
+class Logger extends AbstractLogger
 {
     public static function get()
     {
         return new Logger();
     }
 
-    public function logError($message)
-    {
-        $logFile = fopen('application.log', 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
-    }
-
-    public function logSuccess($msg)
+    public function log($type, $message)
     {
         $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
+
+        fwrite($logFile, strtoupper($type) . ': ' . $message . "\n");
+        fclose($logFile);
     }
 }
