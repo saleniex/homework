@@ -1,19 +1,29 @@
 <?php
 
 require_once 'AbstractLogger.php';
+require_once 'LogToFile.php';
 
 class Logger extends AbstractLogger
 {
+    private $output;
+
+    public function __construct(OutputInterface $output)
+    {
+        $this->output = $output;
+    }
+
     public static function get()
     {
-        return new Logger();
+        return new Logger(new LogToFile('application.log'));
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
     }
 
     public function log($type, $message)
     {
-        $logFile = fopen('application.log', 'a');
-
-        fwrite($logFile, strtoupper($type) . ': ' . $message . "\n");
-        fclose($logFile);
+        return $this->getOutput()->out($type, $message);
     }
 }
