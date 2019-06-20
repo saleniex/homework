@@ -1,3 +1,17 @@
+***Meta***
+
+Install dependencies
+```
+composer install
+```
+
+Run the tests:
+```
+./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/*
+```
+
+
+
 ***Task***
 
 1. Refactor code in order to improve readability and effectivity;
