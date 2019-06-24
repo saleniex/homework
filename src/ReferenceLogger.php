@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Homework;
 
+use Homework\Format\ConcatFormatter;
+use Homework\Format\FormatterInterface;
 use Homework\Output\HandlerInterface;
 use Homework\Output\StreamHandler;
 
@@ -19,12 +21,18 @@ class ReferenceLogger implements LoggerInterface
     private $handler;
 
     /**
+     * @var FormatterInterface
+     */
+    private $formatter;
+
+    /**
      * ReferenceLogger constructor.
      * @param string $fileName
      */
     public function __construct(string $fileName = "application.log")
     {
         $this->handler = new StreamHandler(fopen($fileName, 'a+'));
+        $this->formatter = new ConcatFormatter();
     }
 
     /**
@@ -56,6 +64,7 @@ class ReferenceLogger implements LoggerInterface
         if ($level === LogLevel::ERROR) {
             $this->handler->clear();
         }
-        $this->handler->write($level . ': ' . $message);
+        $this->handler->write(
+            $this->formatter->format($message, $level));
     }
 }
