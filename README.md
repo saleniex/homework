@@ -11,6 +11,11 @@ Run the tests:
 ```
 
 
+Supply environment variable for logger ("console" or "default")
+```
+LOGGER=console php index.php
+```
+
 
 ***Task***
 
