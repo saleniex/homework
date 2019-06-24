@@ -9,9 +9,9 @@ use org\bovigo\vfs\vfsStream,
 use Homework\ReferenceLogger;
 
 /**
- * Class ReferenceLoggerIntegrationTestCase
+ * Class ReferenceLoggerIntegrationTest
  */
-final class ReferenceLoggerIntegrationTestCase extends TestCase
+final class ReferenceLoggerIntegrationTest extends TestCase
 {
     /**
      * @var  vfsStreamDirectory

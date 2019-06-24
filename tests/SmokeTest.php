@@ -7,15 +7,19 @@ use PHPUnit\Framework\TestCase;
 const ROOT = __DIR__ . "/../";
 
 /**
- * Class SmokeTestCase
+ * Class SmokeTest
  */
-final class SmokeTestCase extends TestCase
+final class SmokeTest extends TestCase
 {
     final public function testReferenceOutput(): void
     {
+        $resultFileName = ROOT . "application.log";
+        if (file_exists($resultFileName)) {
+            unlink($resultFileName);
+        }
+
         include(ROOT . "index.php");
 
-        $resultFileName = ROOT . "/application.log";
 
         $this->assertEquals("ERROR: Error message #2SUCCESS: Success message.",
             file_get_contents($resultFileName), "File contains reference data.");
