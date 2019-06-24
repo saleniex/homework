@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Homework;
 
+use Homework\Output\HandlerInterface;
+use Homework\Output\StreamHandler;
+
 /**
  * Class ReferenceLogger
  * @package Homework
@@ -11,9 +14,9 @@ namespace Homework;
 class ReferenceLogger implements LoggerInterface
 {
     /**
-     * @var resource
+     * @var HandlerInterface
      */
-    private $resource;
+    private $handler;
 
     /**
      * ReferenceLogger constructor.
@@ -21,7 +24,7 @@ class ReferenceLogger implements LoggerInterface
      */
     public function __construct(string $fileName = "application.log")
     {
-        $this->resource = fopen($fileName, 'w');
+        $this->handler = new StreamHandler(fopen($fileName, 'a+'));
     }
 
     /**
@@ -30,7 +33,6 @@ class ReferenceLogger implements LoggerInterface
      */
     public function logError(string $message): void
     {
-        ftruncate($this->resource, 0);
         $this->log($message, LogLevel::ERROR);
     }
 
@@ -50,6 +52,10 @@ class ReferenceLogger implements LoggerInterface
      */
     public function log(string $message, string $level): void
     {
-        fwrite($this->resource, $level . ': ' . $message);
+        // Error clears, everything else appends
+        if ($level === LogLevel::ERROR) {
+            $this->handler->clear();
+        }
+        $this->handler->write($level . ': ' . $message);
     }
 }
