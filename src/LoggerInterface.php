@@ -22,4 +22,11 @@ interface LoggerInterface
      */
     public function logSuccess(string $message): void;
 
+
+    /**
+     * @param string $message
+     * @param string $level
+     * @return void
+     */
+    public function log(string $message, string $level): void;
 }

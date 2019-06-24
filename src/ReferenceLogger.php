@@ -11,13 +11,17 @@ namespace Homework;
 class ReferenceLogger implements LoggerInterface
 {
     /**
-     * @var string
+     * @var resource
      */
-    private $fileName;
+    private $resource;
 
+    /**
+     * ReferenceLogger constructor.
+     * @param string $fileName
+     */
     public function __construct(string $fileName = "application.log")
     {
-        $this->fileName = $fileName;
+        $this->resource = fopen($fileName, 'w');
     }
 
     /**
@@ -26,9 +30,8 @@ class ReferenceLogger implements LoggerInterface
      */
     public function logError(string $message): void
     {
-        $logFile = fopen($this->fileName, 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
+        ftruncate($this->resource, 0);
+        $this->log($message, LogLevel::ERROR);
     }
 
     /**
@@ -37,9 +40,16 @@ class ReferenceLogger implements LoggerInterface
      */
     public function logSuccess(string $message): void
     {
-        $logFile = fopen($this->fileName, 'a');
-        fwrite($logFile, 'SUCCESS: ' . $message);
+        $this->log($message, LogLevel::SUCCESS);
     }
 
-
+    /**
+     * @param string $message
+     * @param string $level
+     * @return void
+     */
+    public function log(string $message, string $level): void
+    {
+        fwrite($this->resource, $level . ': ' . $message);
+    }
 }
