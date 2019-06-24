@@ -8,10 +8,10 @@ use Homework\Format\FormatterInterface;
 use Homework\Output\HandlerInterface;
 
 /**
- * Class AbstractLogger
+ * Class BaseLogger
  * @package Homework
  */
-abstract class AbstractLogger implements LoggerInterface
+class BaseLogger implements LoggerInterface
 {
     /**
      * @var HandlerInterface

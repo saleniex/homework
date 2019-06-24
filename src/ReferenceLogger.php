@@ -12,7 +12,7 @@ use Homework\Output\StreamHandler;
  * Class ReferenceLogger
  * @package Homework
  */
-class ReferenceLogger extends AbstractLogger
+class ReferenceLogger extends BaseLogger
 {
     /**
      * ReferenceLogger constructor.
