@@ -12,8 +12,10 @@ final class LoggerTest extends TestCase
 		$message = "This is an error message";
 
 		$logger = new Logger();
-		$logger->clearLog();
-		$logger->logError($message);
+        $logger
+            ->clearLog()
+            ->logError($message)
+            ;
 		$content = file_get_contents($logger->fileLocation);
 		$this->assertContains($message, $content);
     }
@@ -23,8 +25,10 @@ final class LoggerTest extends TestCase
 		$message = "This is a success message";
 
 		$logger = new Logger();
-		$logger->clearLog();
-		$logger->logSuccess($message);
+        $logger
+            ->clearLog()
+            ->logSuccess($message)
+            ;
 		$content = file_get_contents($logger->fileLocation);
 		$this->assertContains($message, $content);
     }

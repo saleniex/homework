@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types = 1);
 /*
  * Class LoggerAbstract
  *
@@ -51,7 +51,7 @@ class LoggerAbstract {
      * @return void
      */
 
-    public function updateOutputHandler() {
+    public function updateOutputHandler() : void {
         if($this->handler) {
             fclose($this->handler);
         } 
@@ -69,7 +69,7 @@ class LoggerAbstract {
      * @return  $this
      */
 
-    public function logError($message) {
+    public function logError(string $message) : Logger {
         $this->logMessage("error", $message);
         return $this;
     }
@@ -82,7 +82,7 @@ class LoggerAbstract {
      * @return  $this
      */
 
-    public function logSuccess($message) {
+    public function logSuccess(string $message) : Logger {
         $this->logMessage("success", $message);
         return $this;
     }
@@ -96,7 +96,7 @@ class LoggerAbstract {
      * @return  $this
      */
 
-    public function logMessage($type, $message) {
+    public function logMessage(string $type, string $message) : Logger {
         $allowedTypes = ["error", "success"];
         if(!in_array($type, $allowedTypes)) {
             throw new InvalidArgumentException("Invalid log message type");    
@@ -115,7 +115,7 @@ class LoggerAbstract {
      * @return  $this
      */
 
-    public function clearLog() {
+    public function clearLog() : Logger {
         $handler = fopen($this->fileLocation, 'w');
         fclose($handler);
         return $this;
@@ -128,7 +128,7 @@ class LoggerAbstract {
      * @return  string
      */
 
-    public function colorString($type) {
+    public function colorString(string $type) : string {
         $colors = [
             "error" => "0;31",
             "success" => "0;32"
@@ -147,7 +147,7 @@ class LoggerAbstract {
      * @return  $this
      */
 
-    public function setCLI($cli = true) {
+    public function setCLI($cli = true) : Logger {
         $this->cli = $cli;
         $this->outputFlag = "a";
         $this->updateOutputHandler();
@@ -178,7 +178,7 @@ class Logger extends LoggerAbstract {
      * @return      object
      */
     
-    public static function get($cli = false) {
+    public static function get($cli = false) : Logger {
         if(!self::$logger) {
            self::$logger = new Logger($cli);
         }
