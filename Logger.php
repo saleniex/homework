@@ -97,6 +97,10 @@ class LoggerAbstract {
      */
 
     public function logMessage($type, $message) {
+        $allowedTypes = ["error", "success"];
+        if(!in_array($type, $allowedTypes)) {
+            throw new InvalidArgumentException("Invalid log message type");    
+        }
         if($this->cli) {
             $type = $this->colorString($type);
         }
@@ -145,6 +149,7 @@ class LoggerAbstract {
 
     public function setCLI($cli = true) {
         $this->cli = $cli;
+        $this->outputFlag = "a";
         $this->updateOutputHandler();
         return $this;
     }
