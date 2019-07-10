@@ -13,3 +13,27 @@
 2. Changes should be done in Logger class (new classes can be created if needed);
 
 3. Commit after each step.
+
+***Usage***
+
+For Logger run:
+Run php -q index.php
+
+For Tests run:
+./phpunit tests/LoggerTest.php
+
+Switching to command line can be done by passing true as first parameter:
+$logger = Logger::get(true);
+
+Or by calling:
+$logger->setCLI(); //default = true.
+$logger->setCLI(false); //false - to disable.
+
+Logger supports dynamically switching from CLI to file, e.g.:
+...
+$logger->logError("error"); //default - will write to file;
+$logger->setCLI(true);
+$logger->logError("error"); //will output to command line;
+$logger->setCLI(false);
+$logger->logSuccess("success"); //will write to file;
+
