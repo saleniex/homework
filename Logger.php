@@ -27,15 +27,38 @@ class LoggerAbstract {
      */
     public $outputFlag = "w";
 
+    /*
+     * CLI (Command Line Interface) switch
+     *
+     */
+    private $cli;
 
     /*
      * LoggerAbstract constructor.
      *
+     * @param   string   $cli
+     *
      */
 
-    public function __construct() {
+    public function __construct($cli = false) {
+        $this->cli = $cli;
+        $this->updateOutputHandler();
+    }
+
+    /*
+     * Based on cli switch value we need to dynamically change the output handler.
+     *
+     * @return void
+     */
+
+    public function updateOutputHandler() {
+        if($this->handler) {
+            fclose($this->handler);
+        } 
+        
+        $output = $this->cli ? "php://stdout" : $this->fileLocation;
         $flag = $this->outputFlag;
-        $this->handler = fopen($this->fileLocation, $flag);
+        $this->handler = fopen($output, $flag ) ;
     }
  
     /*
@@ -74,6 +97,10 @@ class LoggerAbstract {
      */
 
     public function logMessage($type, $message) {
+        if($this->cli) {
+            $type = $this->colorString($type);
+        }
+
         fwrite($this->handler, $type .': ' . $message . "\n");
         return $this;
     }
@@ -87,6 +114,38 @@ class LoggerAbstract {
     public function clearLog() {
         $handler = fopen($this->fileLocation, 'w');
         fclose($handler);
+        return $this;
+    }
+
+    /*
+     * A small feature for coloring command line messages;
+     * @param   string   $type
+     *
+     * @return  string
+     */
+
+    public function colorString($type) {
+        $colors = [
+            "error" => "0;31",
+            "success" => "0;32"
+        ];
+        if(array_key_exists($type, $colors)) {
+            return "\033[" . $colors[$type] . "m" . $type . "\033[0m";
+        } else {
+            return $type;
+        }
+    }
+
+    /*
+     * Method for dynamically switching CLI output on/off
+     * @param   boolean  $cli
+     *
+     * @return  $this
+     */
+
+    public function setCLI($cli = true) {
+        $this->cli = $cli;
+        $this->updateOutputHandler();
         return $this;
     }
 
@@ -114,9 +173,9 @@ class Logger extends LoggerAbstract {
      * @return      object
      */
     
-    public static function get() {
+    public static function get($cli = false) {
         if(!self::$logger) {
-            self::$logger = new Logger();
+           self::$logger = new Logger($cli);
         }
         return self::$logger;
     }
