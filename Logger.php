@@ -1,23 +1,15 @@
 <?php
 
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+
+use Homework\LoggerInterface;
+use Homework\FileLogger;
 
 class Logger
 {
-    public static function get()
+    public static function get() : LoggerInterface
     {
-        return new Logger();
-    }
-
-    public function logError($message)
-    {
-        $logFile = fopen('application.log', 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
-    }
-
-    public function logSuccess($msg)
-    {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
+        return new FileLogger();
     }
 }
