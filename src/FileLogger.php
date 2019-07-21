@@ -2,12 +2,12 @@
 
 namespace Homework;
 
-class FileLogger implements LoggerInterface
+use Homework\Exceptions\LogTypeException;
+
+class FileLogger extends AbstractLogger
 {
-    const LOG_PREFIX_SUCCESS = 'SUCCESS';
-    const LOG_PREFIX_ERROR = 'ERROR';
-    const LOG_MODE_SUCCESS = 'a';
-    const LOG_MODE_ERROR = 'w';
+    const LOG_MODE_APPEND_TEXT = 'a';
+    const LOG_MODE_PREPEND_TEXT = 'w';
 
     /**
      * @param string
@@ -23,44 +23,40 @@ class FileLogger implements LoggerInterface
     }
 
     /**
-     * Log error message to file
+     * Log string message to file
+     * @param string $logType
      * @param string $message
      */
-    public function logError(string $message) : void
+    protected function logMessage(string $logType, string $message) : void
     {
-        $this->logMessage(
-            $message,
-            self::LOG_MODE_ERROR,
-            self::LOG_PREFIX_ERROR
-        );
-    }
+        $mode = $this->getFileOpenMode($logType);
 
-    /**
-     * Log success message to file
-     * @param string $message
-     */
-    public function logSuccess(string $message) : void
-    {
-        $this->logMessage(
-            $message,
-            self::LOG_MODE_SUCCESS,
-            self::LOG_PREFIX_SUCCESS
-        );
-    }
-
-    /**
-     * Log string message to file in mode and with prefix passed to it
-     * @param string $message
-     * @param string $mode
-     * @param string $prefix
-     */
-    protected function logMessage(string $message, string $mode, string $prefix) : void
-    {
         $logFile = fopen($this->logFileName, $mode);
         fwrite(
             $logFile,
-            sprintf("%s: %s", $prefix, $message)
+            sprintf("%s: %s", $logType, $message)
         );
         fclose($logFile);
+    }
+
+    /**
+     * Get file open mode depending on log type
+     * @param string $logType
+     *
+     * @return string
+     */
+    protected function getFileOpenMode(string $logType) : string
+    {
+        switch ($logType) {
+            case self::LOG_TYPE_ERROR:
+                return self::LOG_MODE_PREPEND_TEXT;
+                break;
+            case self::LOG_TYPE_SUCCESS:
+                return self::LOG_MODE_APPEND_TEXT;
+                break;
+            default:
+                throw new LogTypeException("Invalid log type!");
+                break;
+        }
     }
 }
