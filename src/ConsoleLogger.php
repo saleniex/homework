@@ -11,6 +11,6 @@ class ConsoleLogger extends AbstractLogger
      */
     protected function logMessage(string $logType, string $message) : void
     {
-
+        printf("%s: %s\n", $logType, $message);
     }
 }
