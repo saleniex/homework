@@ -34,7 +34,7 @@ class FileLogger extends AbstractLogger
         $logFile = fopen($this->logFileName, $mode);
         fwrite(
             $logFile,
-            sprintf("%s: %s", $logType, $message)
+            $this->getFormatedMessage($logType, $message)
         );
         fclose($logFile);
     }

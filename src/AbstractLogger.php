@@ -32,6 +32,17 @@ abstract class AbstractLogger implements LoggerInterface
     }
 
     /**
+     * @param string $logType
+     * @param string $message
+     *
+     * @return string
+     */
+    protected function getFormatedMessage($logType, $message) : string
+    {
+        return sprintf("%s: %s", $logType, $message);
+    }
+
+    /**
      * Log message as as log type
      * @param string $logType
      * @param string $message
