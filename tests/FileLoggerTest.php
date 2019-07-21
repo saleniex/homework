@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
+use Homework\FileLogger;
 use PHPUnit\Framework\TestCase;
 const ROOT = __DIR__ . "/../";
-
-require_once(ROOT . "Logger.php");
 
 class LoggerTest extends TestCase
 {
@@ -16,7 +15,7 @@ class LoggerTest extends TestCase
 
     public function __construct()
     {
-        $this->logger = Logger::get();
+        $this->logger = new FileLogger();
 
         parent::__construct();
     }
