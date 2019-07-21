@@ -4,15 +4,14 @@ namespace Tests;
 
 use Homework\FileLogger;
 
-const ROOT = __DIR__ . "/../";
-
 class LoggerTest extends AbstractLoggerTest
 {
-    private $fullFileName = ROOT . 'application.log';
+    private $fullFileName;
     private $logger;
 
     public function __construct()
     {
+        $this->fullFileName  = __DIR__ . "/../" . 'application.log';
         $this->logger = new FileLogger();
 
         parent::__construct();
@@ -27,7 +26,7 @@ class LoggerTest extends AbstractLoggerTest
     }
 
     /**
-     * @group logfile1
+     * @group logfile
      * @group logsuccess
      */
     public function testLogFileCreatedOnSuccess(): void
