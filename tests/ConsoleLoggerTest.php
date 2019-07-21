@@ -21,7 +21,15 @@ class ConsoleLoggerTest extends AbstractLoggerTest
      */
     public function testSuccessLog()
     {
-        static::assertTrue(false);
+        ob_start();
+        $this->logger->logSuccess(
+            $this->getSuccessMessage()
+        );
+        $actual = ob_get_clean();
+
+        $expected = $this->getExpectedSuccessMessage() . "\n";
+
+        static::assertEquals($expected, $actual);
     }
 
     /**
@@ -30,6 +38,14 @@ class ConsoleLoggerTest extends AbstractLoggerTest
      */
     public function testErrorLog()
     {
-        static::assertTrue(false);
+        ob_start();
+        $this->logger->logError(
+            $this->getErrorMessage()
+        );
+        $actual = ob_get_clean();
+
+        $expected = $this->getExpectedErrorMessage() . "\n";
+
+        static::assertEquals($expected, $actual);
     }
 }
