@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+namespace Tests;
 
 use Homework\FileLogger;
-use PHPUnit\Framework\TestCase;
+
 const ROOT = __DIR__ . "/../";
 
-class LoggerTest extends TestCase
+class LoggerTest extends AbstractLoggerTest
 {
-    private $successMessage = 'successMessage';
-    private $errorMessage = 'errorMessage';
     private $fullFileName = ROOT . 'application.log';
     private $logger;
 
@@ -29,12 +27,12 @@ class LoggerTest extends TestCase
     }
 
     /**
-     * @group logfile
+     * @group logfile1
      * @group logsuccess
      */
     public function testLogFileCreatedOnSuccess(): void
     {
-        $this->logger->logSuccess($this->successMessage);
+        $this->logger->logSuccess($this->getSuccessMessage());
 
         static::assertFileExists(
             $this->fullFileName,
@@ -48,13 +46,12 @@ class LoggerTest extends TestCase
      */
     public function testLogContentOnSuccess(): void
     {
-        $this->logger->logSuccess($this->successMessage);
-        $successMessagePrefix = 'SUCCESS:';
+        $this->logger->logSuccess($this->getSuccessMessage());
 
         $fileContents = $this->getFileContentsIfFileExists($this->fullFileName);
 
         static::assertStringContainsString(
-            sprintf("%s %s", $successMessagePrefix, $this->successMessage),
+            $this->getExpectedSuccessMessage(),
             $fileContents
         );
     }
@@ -65,7 +62,7 @@ class LoggerTest extends TestCase
      */
     public function testLogFileCreatedOnError(): void
     {
-        $this->logger->logError($this->errorMessage);
+        $this->logger->logError($this->getErrorMessage());
 
         static::assertFileExists(
             $this->fullFileName,
@@ -79,13 +76,12 @@ class LoggerTest extends TestCase
      */
     public function testLogContentOnError(): void
     {
-        $this->logger->logError($this->errorMessage);
-        $ErrorMessagePrefix = 'ERROR:';
+        $this->logger->logError($this->getErrorMessage());
 
         $fileContents = $this->getFileContentsIfFileExists($this->fullFileName);
 
         static::assertStringContainsString(
-            sprintf("%s %s", $ErrorMessagePrefix, $this->errorMessage),
+            $this->getExpectedErrorMessage(),
             $fileContents
         );
     }
