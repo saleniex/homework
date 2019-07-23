@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Homework;
+namespace Homework\Logger;
 
 interface LoggerInterface
 {

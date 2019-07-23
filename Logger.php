@@ -4,8 +4,8 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 
 use Homework\LoggerInterface;
-use Homework\FileLogger;
-use Homework\ConsoleLogger;
+use Homework\Logger\FileLogger;
+use Homework\Logger\ConsoleLogger;
 use Homework\Exceptions\LoggerTypeException;
 use Homework\Formatter\Formatter;
 use Homework\Formatter\NewlineFormatter;

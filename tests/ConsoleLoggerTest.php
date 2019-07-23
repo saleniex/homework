@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Homework\ConsoleLogger;
+use Homework\Logger\ConsoleLogger;
 use Homework\Formatter\NewlineFormatter;
 class ConsoleLoggerTest extends AbstractLoggerTest
 {

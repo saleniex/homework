@@ -1,6 +1,6 @@
 <?php
 
-namespace Homework;
+namespace Homework\Logger;
 
 use Homework\Exceptions\LogTypeException;
 use Homework\Formatter\FormatterInterface;

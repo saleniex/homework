@@ -1,8 +1,7 @@
 <?php
 
-namespace Homework;
+namespace Homework\Logger;
 
-use Homework\AbstractLogger;
 use Homework\Formatter\FormatterInterface;
 
 class ConsoleLogger extends AbstractLogger

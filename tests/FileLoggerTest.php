@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Homework\FileLogger;
+use Homework\Logger\FileLogger;
 use Homework\Formatter\Formatter;
 
 class LoggerTest extends AbstractLoggerTest

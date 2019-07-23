@@ -1,6 +1,6 @@
 <?php
 
-namespace Homework;
+namespace Homework\Logger;
 
 abstract class AbstractLogger implements LoggerInterface
 {
