@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Logger;
 
 use Homework\Logger\FileLogger;
 use Homework\Formatter\Formatter;
@@ -12,7 +12,7 @@ class LoggerTest extends AbstractLoggerTest
 
     public function __construct()
     {
-        $this->fullFileName  = __DIR__ . "/../" . 'application.log';
+        $this->fullFileName  = __DIR__ . "/../../" . 'application.log';
         $this->logger = new FileLogger(new Formatter);
 
         parent::__construct();

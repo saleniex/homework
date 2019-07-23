@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Logger;
 
 use Homework\Logger\ConsoleLogger;
 use Homework\Formatter\NewlineFormatter;
