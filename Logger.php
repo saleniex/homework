@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 
-use Homework\LoggerInterface;
+use Homework\Logger\LoggerInterface;
 use Homework\Logger\FileLogger;
 use Homework\Logger\ConsoleLogger;
 use Homework\Exceptions\LoggerTypeException;
