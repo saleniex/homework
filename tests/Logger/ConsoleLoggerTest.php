@@ -4,6 +4,7 @@ namespace Tests\Logger;
 
 use Homework\Logger\ConsoleLogger;
 use Homework\Formatter\NewlineFormatter;
+
 class ConsoleLoggerTest extends AbstractLoggerTest
 {
     public function __construct()
