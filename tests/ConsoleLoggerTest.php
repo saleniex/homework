@@ -3,15 +3,11 @@
 namespace Tests;
 
 use Homework\ConsoleLogger;
-
+use Homework\Formatter\NewlineFormatter;
 class ConsoleLoggerTest extends AbstractLoggerTest
 {
-    private $logger;
-
     public function __construct()
     {
-        $this->logger = new ConsoleLogger;
-
         parent::__construct();
     }
 
@@ -21,13 +17,17 @@ class ConsoleLoggerTest extends AbstractLoggerTest
      */
     public function testSuccessLog()
     {
+        $logger = $this->getLogger(
+            $this->getExpectedSuccessMessage()
+        );
+
         ob_start();
-        $this->logger->logSuccess(
+        $logger->logSuccess(
             $this->getSuccessMessage()
         );
         $actual = ob_get_clean();
 
-        $expected = $this->getExpectedSuccessMessage() . "\n";
+        $expected = $this->getExpectedSuccessMessage();
 
         static::assertEquals($expected, $actual);
     }
@@ -38,14 +38,33 @@ class ConsoleLoggerTest extends AbstractLoggerTest
      */
     public function testErrorLog()
     {
+        $logger = $this->getLogger(
+            $this->getExpectedErrorMessage()
+        );
+
         ob_start();
-        $this->logger->logError(
+        $logger->logError(
             $this->getErrorMessage()
         );
         $actual = ob_get_clean();
 
-        $expected = $this->getExpectedErrorMessage() . "\n";
+        $expected = $this->getExpectedErrorMessage();
 
         static::assertEquals($expected, $actual);
+    }
+
+    /**
+     * Return logger with mocked formatter
+     * @param string $message
+     *
+     * @return ConsoleLogger
+     */
+    protected function getLogger(string $message) : ConsoleLogger
+    {
+        $mockedFormatter = $this->createMock(NewlineFormatter::class);
+        $mockedFormatter->method('format')->willReturn($message);
+        $logger = new ConsoleLogger($mockedFormatter);
+
+        return $logger;
     }
 }

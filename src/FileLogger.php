@@ -3,6 +3,7 @@
 namespace Homework;
 
 use Homework\Exceptions\LogTypeException;
+use Homework\Formatter\FormatterInterface;
 
 class FileLogger extends AbstractLogger
 {
@@ -10,16 +11,22 @@ class FileLogger extends AbstractLogger
     const LOG_MODE_PREPEND_TEXT = 'w';
 
     /**
-     * @param string
+     * @var string
      */
     private $logFileName;
+    /**
+     * @var FormatterInterface
+     */
+    private $formatter;
 
     /**
+     * @param FormatterInterface $formatter
      * @param string $logFileName
      */
-    public function __construct(string $logFileName = 'application.log')
+    public function __construct(FormatterInterface $formatter, string $logFileName = 'application.log')
     {
         $this->logFileName = $logFileName;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -34,7 +41,7 @@ class FileLogger extends AbstractLogger
         $logFile = fopen($this->logFileName, $mode);
         fwrite(
             $logFile,
-            $this->getFormatedMessage($logType, $message)
+            $this->formatter->format($logType, $message)
         );
         fclose($logFile);
     }

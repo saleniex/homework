@@ -7,6 +7,8 @@ use Homework\LoggerInterface;
 use Homework\FileLogger;
 use Homework\ConsoleLogger;
 use Homework\Exceptions\LoggerTypeException;
+use Homework\Formatter\Formatter;
+use Homework\Formatter\NewlineFormatter;
 
 class Logger
 {
@@ -20,10 +22,10 @@ class Logger
             case "false":
             case "file":
             case false:
-                return new FileLogger();
+                return new FileLogger(new Formatter());
                 break;
             case "console":
-                return new ConsoleLogger();
+                return new ConsoleLogger(new NewlineFormatter());
                 break;
             default:
                 throw new LoggerTypeException("Invalid logger type supplied!");

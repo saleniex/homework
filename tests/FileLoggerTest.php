@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Homework\FileLogger;
+use Homework\Formatter\Formatter;
 
 class LoggerTest extends AbstractLoggerTest
 {
@@ -12,7 +13,7 @@ class LoggerTest extends AbstractLoggerTest
     public function __construct()
     {
         $this->fullFileName  = __DIR__ . "/../" . 'application.log';
-        $this->logger = new FileLogger();
+        $this->logger = new FileLogger(new Formatter);
 
         parent::__construct();
     }
@@ -31,7 +32,12 @@ class LoggerTest extends AbstractLoggerTest
      */
     public function testLogFileCreatedOnSuccess(): void
     {
-        $this->logger->logSuccess($this->getSuccessMessage());
+        $logger = $this->getLogger(
+            $this->getExpectedSuccessMessage()
+        );
+        $logger->logSuccess(
+            $this->getSuccessMessage()
+        );
 
         static::assertFileExists(
             $this->fullFileName,
@@ -45,7 +51,12 @@ class LoggerTest extends AbstractLoggerTest
      */
     public function testLogContentOnSuccess(): void
     {
-        $this->logger->logSuccess($this->getSuccessMessage());
+        $logger = $this->getLogger(
+            $this->getExpectedSuccessMessage()
+        );
+        $logger->logSuccess(
+            $this->getSuccessMessage()
+        );
 
         $fileContents = $this->getFileContentsIfFileExists($this->fullFileName);
 
@@ -61,7 +72,12 @@ class LoggerTest extends AbstractLoggerTest
      */
     public function testLogFileCreatedOnError(): void
     {
-        $this->logger->logError($this->getErrorMessage());
+        $logger = $this->getLogger(
+            $this->getExpectedErrorMessage()
+        );
+        $logger->logError(
+            $this->getErrorMessage()
+        );
 
         static::assertFileExists(
             $this->fullFileName,
@@ -75,7 +91,12 @@ class LoggerTest extends AbstractLoggerTest
      */
     public function testLogContentOnError(): void
     {
-        $this->logger->logError($this->getErrorMessage());
+        $logger = $this->getLogger(
+            $this->getExpectedErrorMessage()
+        );
+        $logger->logError(
+            $this->getErrorMessage()
+        );
 
         $fileContents = $this->getFileContentsIfFileExists($this->fullFileName);
 
@@ -98,5 +119,20 @@ class LoggerTest extends AbstractLoggerTest
         }
 
         return null;
+    }
+
+    /**
+     * Return logger with mocked formatter
+     * @param string $message
+     *
+     * @return FileLogger
+     */
+    protected function getLogger(string $message) : FileLogger
+    {
+        $mockedFormatter = $this->createMock(Formatter::class);
+        $mockedFormatter->method('format')->willReturn($message);
+        $logger = new FileLogger($mockedFormatter);
+
+        return $logger;
     }
 }
