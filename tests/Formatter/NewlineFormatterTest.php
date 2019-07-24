@@ -13,7 +13,7 @@ class NewlineFormatterTestCase extends TestCase
      * @group formatter
      * @group newline
      */
-    public function testFormat()
+    public function testFormat() : void
     {
         static::assertEquals(
             "Prefix: Message\n",

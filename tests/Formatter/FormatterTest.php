@@ -13,7 +13,7 @@ class FormatterTestCase extends TestCase
      * @group formatter
      * @group concat
      */
-    public function testFormat()
+    public function testFormat() : void
     {
         static::assertEquals(
             "Prefix: Message",

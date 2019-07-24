@@ -61,7 +61,7 @@ abstract class AbstractLoggerTest extends TestCase
     /**
      * @return string
      */
-    protected function getSuccessMessage()
+    protected function getSuccessMessage() : string
     {
         return $this->successMessage;
     }
@@ -69,7 +69,7 @@ abstract class AbstractLoggerTest extends TestCase
     /**
      * @return string
      */
-    protected function getErrorMessage()
+    protected function getErrorMessage() : string
     {
         return $this->errorMessage;
     }
