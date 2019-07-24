@@ -3,17 +3,16 @@
 namespace Tests\Logger;
 
 use Homework\Logger\FileLogger;
-use Homework\Formatter\Formatter;
 
 class LoggerTest extends AbstractLoggerTest
 {
     private $fullFileName;
-    private $logger;
+    private $loggerClass;
 
     public function __construct()
     {
         $this->fullFileName  = __DIR__ . "/../../" . 'application.log';
-        $this->logger = new FileLogger(new Formatter);
+        $this->loggerClass = FileLogger::class;
 
         parent::__construct();
     }
@@ -33,6 +32,7 @@ class LoggerTest extends AbstractLoggerTest
     public function testLogFileCreatedOnSuccess(): void
     {
         $logger = $this->getLogger(
+            $this->loggerClass,
             $this->getExpectedSuccessMessage()
         );
         $logger->logSuccess(
@@ -52,6 +52,7 @@ class LoggerTest extends AbstractLoggerTest
     public function testLogContentOnSuccess(): void
     {
         $logger = $this->getLogger(
+            $this->loggerClass,
             $this->getExpectedSuccessMessage()
         );
         $logger->logSuccess(
@@ -73,6 +74,7 @@ class LoggerTest extends AbstractLoggerTest
     public function testLogFileCreatedOnError(): void
     {
         $logger = $this->getLogger(
+            $this->loggerClass,
             $this->getExpectedErrorMessage()
         );
         $logger->logError(
@@ -92,6 +94,7 @@ class LoggerTest extends AbstractLoggerTest
     public function testLogContentOnError(): void
     {
         $logger = $this->getLogger(
+            $this->loggerClass,
             $this->getExpectedErrorMessage()
         );
         $logger->logError(
@@ -119,20 +122,5 @@ class LoggerTest extends AbstractLoggerTest
         }
 
         return null;
-    }
-
-    /**
-     * Return logger with mocked formatter
-     * @param string $message
-     *
-     * @return FileLogger
-     */
-    protected function getLogger(string $message) : FileLogger
-    {
-        $mockedFormatter = $this->createMock(Formatter::class);
-        $mockedFormatter->method('format')->willReturn($message);
-        $logger = new FileLogger($mockedFormatter);
-
-        return $logger;
     }
 }

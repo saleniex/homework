@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Logger;
 
 use PHPUnit\Framework\TestCase;
+use Homework\Logger\LoggerInterface;
+use Homework\Formatter\FormatterInterface;
 
 abstract class AbstractLoggerTest extends TestCase
 {
@@ -70,5 +72,20 @@ abstract class AbstractLoggerTest extends TestCase
     protected function getErrorMessage()
     {
         return $this->errorMessage;
+    }
+
+    /**
+     * Return logger with mocked formatter
+     * @param string $message
+     *
+     * @return LoggerInterface
+     */
+    protected function getLogger(string $loggerClass, string $message) : LoggerInterface
+    {
+        $mockedFormatter = $this->createMock(FormatterInterface::class);
+        $mockedFormatter->method('format')->willReturn($message);
+        $logger = new $loggerClass($mockedFormatter);
+
+        return $logger;
     }
 }
