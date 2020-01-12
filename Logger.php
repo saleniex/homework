@@ -2,22 +2,52 @@
 
 class Logger
 {
+    /**
+     * Logger object.
+     *
+     * @var self
+     */
     protected static $logger;
 
+    /**
+     * Const of log levels.
+     *
+     * @var string[]
+     */
     protected const LEVELS = [
         1 => 'ERROR',
         2 => 'SUCCESS',
     ];
 
+    /**
+     * Locate log file path.
+     *
+     * @var string
+     */
     protected $fileLocation = 'application.log';
 
+    /**
+     * Indicates whether to print log record to console.
+     *
+     * @var bool
+     */
     protected $consoleOutput = false;
 
+    /**
+     * Create a new logger instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->checkArguments();
     }
 
+    /**
+     * Check if Logger is initialized.
+     *
+     * @return self
+     */
     public static function get(): self
     {
         if (!self::$logger) {
@@ -27,6 +57,12 @@ class Logger
         return self::$logger;
     }
 
+    /**
+     * Log error message.
+     *
+     * @param  string  $message
+     * @return self
+     */
     public function logError(string $message): self
     {
         $this->addRecord(1, $message);
@@ -34,6 +70,12 @@ class Logger
         return $this;
     }
 
+    /**
+     * Log success message.
+     *
+     * @param  string  $message
+     * @return self
+     */
     public function logSuccess(string $message): self
     {
         $this->addRecord(2, $message);
@@ -41,11 +83,19 @@ class Logger
         return $this;
     }
 
+    /**
+     * Creates log record.
+     *
+     * @param  string  $level
+     * @param  string  $message
+     * @return void
+     */
     protected function addRecord(int $level, string $message): void
     {
         $levelName = $this->getLevelName($level);
+        $timestamp = $this->getTimestamp();
 
-        $record = $levelName . ': ' . $message . PHP_EOL;
+        $record = '[' . $timestamp . '] ' . $levelName . ': ' . $message . PHP_EOL;
 
         if ($this->consoleOutput) {
             $this->printToConsole($record);
@@ -54,6 +104,12 @@ class Logger
         }
     }
 
+    /**
+     * Write log record to a file.
+     *
+     * @param  string  $record
+     * @return void
+     */
     protected function writeToFile(string $record): void
     {
         try {
@@ -65,6 +121,12 @@ class Logger
         }
     }
 
+    /**
+     * Print log record to console.
+     *
+     * @param  string  $record
+     * @return self
+     */
     protected function printToConsole(string $record): self
     {
         echo $record;
@@ -72,11 +134,21 @@ class Logger
         return $this;
     }
 
+    /**
+     * Create timestamp.
+     *
+     * @return string
+     */
     protected function getTimestamp(): string
     {
         return date('Y-m-d H:i:s');
     }
 
+    /**
+     * Read passed arguments.
+     *
+     * @return array
+     */
     protected function getArguments(): array
     {
         $arguments = $_SERVER['argv'];
@@ -87,6 +159,11 @@ class Logger
         return $arguments;
     }
 
+    /**
+     * Iterate through passed arguments and execute methods.
+     *
+     * @return void
+     */
     protected function checkArguments(): void
     {
         $arguments = $this->getArguments();
@@ -102,6 +179,12 @@ class Logger
         }
     }
 
+    /**
+     * Set console output.
+     *
+     * @param  bool  $status
+     * @return self
+     */
     public function setConsoleOutput(bool $status): self
     {
         $this->consoleOutput = $status;
@@ -109,11 +192,22 @@ class Logger
         return $this;
     }
 
+    /**
+     * Get log file location.
+     *
+     * @return string
+     */
     public function getFileLocation(): string
     {
         return $this->fileLocation;
     }
 
+    /**
+     * Set log file location.
+     *
+     * @param  string  $fileLocation
+     * @return self
+     */
     public function setFileLocation(string $fileLocation): self
     {
         $this->fileLocation = $fileLocation;
@@ -121,6 +215,11 @@ class Logger
         return $this;
     }
 
+    /**
+     * Clear log file.
+     *
+     * @return self
+     */
     public function clearLog(): self
     {
         try {
@@ -133,6 +232,11 @@ class Logger
         return $this;
     }
 
+    /**
+     * Get logging level name.
+     *
+     * @throws InvalidArgumentException
+     */
     public function getLevelName(int $level): string
     {
         if (!isset(self::LEVELS[$level])) {

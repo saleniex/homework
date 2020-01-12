@@ -33,7 +33,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
     public function log_file_contains_success_message(): void
     {
         $this->logger->logSuccess('Test success');
-        $record = 'SUCCESS: Test success' . PHP_EOL;
+        $record = '[' . date('Y-m-d H:i:s') . '] SUCCESS: Test success' . PHP_EOL;
         $fileContent = file_get_contents($this->logger->getFileLocation());
 
         $this->assertEquals($fileContent, $record);
@@ -43,7 +43,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
      public function log_file_contains_error_message(): void
      {
         $this->logger->logError('Test error');
-        $record = 'ERROR: Test error' . PHP_EOL;
+        $record = '[' . date('Y-m-d H:i:s') . '] ERROR: Test error' . PHP_EOL;
         $fileContent = file_get_contents($this->logger->getFileLocation());
 
         $this->assertEquals($fileContent, $record);
@@ -55,7 +55,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         $this->logger->setConsoleOutput(true);
         $this->logger->logSuccess('Test log');
 
-        $record = 'SUCCESS: Test log' . PHP_EOL;
+        $record = '[' . date('Y-m-d H:i:s') . '] SUCCESS: Test log' . PHP_EOL;
 
         $this->expectOutputString($record);
     }
