@@ -1,8 +1,9 @@
 <?php
 
-
 class Logger
 {
+    protected $fileLocation = 'application.log';
+
     public static function get()
     {
         return new Logger();
@@ -10,14 +11,20 @@ class Logger
 
     public function logError($message)
     {
-        $logFile = fopen('application.log', 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
+        $this->writeToFile('ERROR: ' . $message);
     }
 
-    public function logSuccess($msg)
+    public function logSuccess($message)
     {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
+        $this->writeToFile('SUCCESS: ' . $message);
+    }
+
+    protected function writeToFile(string $message): void
+    {
+        $record = $message . PHP_EOL;
+
+        $logFile = fopen($this->fileLocation, 'a');
+        fwrite($logFile, $record);
+        fclose($logFile);
     }
 }
