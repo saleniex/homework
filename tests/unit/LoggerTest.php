@@ -13,6 +13,16 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
             ->clearLog();
     }
 
+    /** '@test */
+    public function log_file_gets_cleared(): void
+    {
+        $this->logger->logSuccess('Test log')->clearLog();
+
+        $fileContent = file_get_contents($this->logger->getFileLocation());
+
+        $this->assertEquals($fileContent, '');
+    }
+
     /** @test */
     public function log_file_location_can_be_changed(): void
     {
@@ -33,6 +43,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
     public function log_file_contains_success_message(): void
     {
         $this->logger->logSuccess('Test success');
+
         $record = '[' . date('Y-m-d H:i:s') . '] SUCCESS: Test success' . PHP_EOL;
         $fileContent = file_get_contents($this->logger->getFileLocation());
 
@@ -43,6 +54,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
      public function log_file_contains_error_message(): void
      {
         $this->logger->logError('Test error');
+
         $record = '[' . date('Y-m-d H:i:s') . '] ERROR: Test error' . PHP_EOL;
         $fileContent = file_get_contents($this->logger->getFileLocation());
 
@@ -52,8 +64,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function console_output_is_visible(): void
     {
-        $this->logger->setConsoleOutput(true);
-        $this->logger->logSuccess('Test log');
+        $this->logger->setConsoleOutput(true)->logSuccess('Test log');
 
         $record = '[' . date('Y-m-d H:i:s') . '] SUCCESS: Test log' . PHP_EOL;
 

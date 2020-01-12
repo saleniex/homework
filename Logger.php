@@ -236,6 +236,7 @@ class Logger
      * Get logging level name.
      *
      * @throws InvalidArgumentException
+     * @return string
      */
     public function getLevelName(int $level): string
     {
