@@ -2,6 +2,8 @@
 
 class Logger
 {
+    protected static $logger;
+
     protected const LEVELS = [
         1 => 'ERROR',
         2 => 'SUCCESS',
@@ -16,17 +18,21 @@ class Logger
         $this->checkArguments();
     }
 
-    public static function get()
+    public static function get(): self
     {
-        return new Logger();
+        if (!self::$logger) {
+            self::$logger = new Logger();
+        }
+
+        return self::$logger;
     }
 
-    public function logError($message)
+    public function logError(string $message): void
     {
         $this->addRecord(1, $message);
     }
 
-    public function logSuccess($message)
+    public function logSuccess(string $message): void
     {
         $this->addRecord(2, $message);
     }
