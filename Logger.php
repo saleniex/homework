@@ -2,6 +2,11 @@
 
 class Logger
 {
+    protected const LEVELS = [
+        1 => 'ERROR',
+        2 => 'SUCCESS',
+    ];
+
     protected $fileLocation = 'application.log';
 
     protected $consoleOutput = false;
@@ -18,17 +23,19 @@ class Logger
 
     public function logError($message)
     {
-        $this->addRecord('ERROR', $message);
+        $this->addRecord(1, $message);
     }
 
     public function logSuccess($message)
     {
-        $this->addRecord('SUCCESS', $message);
+        $this->addRecord(2, $message);
     }
 
-    protected function addRecord(string $level, string $message): void
+    protected function addRecord(int $level, string $message): void
     {
-        $record = $level . ': ' . $message . PHP_EOL;
+        $levelName = $this->getLevelName($level);
+
+        $record = $levelName . ': ' . $message . PHP_EOL;
 
         if ($this->consoleOutput) {
             $this->printToConsole($record);
@@ -39,10 +46,8 @@ class Logger
 
     protected function writeToFile(string $message): void
     {
-        $record = $message . PHP_EOL;
-
         $logFile = fopen($this->fileLocation, 'a');
-        fwrite($logFile, $record);
+        fwrite($logFile, $message);
         fclose($logFile);
     }
 
@@ -79,5 +84,10 @@ class Logger
     public function setConsoleOutput(bool $status): void
     {
         $this->consoleOutput = $status;
+    }
+
+    public function getLevelName(int $level): string
+    {
+        return self::LEVELS[$level];
     }
 }
