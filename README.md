@@ -13,3 +13,19 @@
 2. Changes should be done in Logger class (new classes can be created if needed);
 
 3. Commit after each step.
+
+***Usage***
+
+To turn on console output:
+```bash
+$ php index.php --console
+```
+
+To run tests:
+```bash
+$ composer install
+```
+
+```bash
+$ ./vendor/bin/phpunit --testdox
+```

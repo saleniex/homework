@@ -60,6 +60,14 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         $this->expectOutputString($record);
     }
 
+    /** @test */
+    public function not_existing_log_level_throws_exception(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->logger->addRecord(3000, 'Error message');
+    }
+
     public function tearDown(): void
     {
         $logFile = $this->logger->getFileLocation();

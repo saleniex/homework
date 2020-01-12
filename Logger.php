@@ -90,7 +90,7 @@ class Logger
      * @param  string  $message
      * @return void
      */
-    protected function addRecord(int $level, string $message): void
+    public function addRecord(int $level, string $message): void
     {
         $levelName = $this->getLevelName($level);
         $timestamp = $this->getTimestamp();
