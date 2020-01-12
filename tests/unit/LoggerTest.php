@@ -8,8 +8,46 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->logger = Logger::get();
+        $this->logger = Logger::get()
+            ->setFileLocation('test.log')
+            ->clearLog();
     }
+
+    /** @test */
+    public function log_file_location_can_be_changed(): void
+    {
+        $this->logger->setFileLocation('info.log');
+
+        $this->assertEquals($this->logger->getFileLocation(), 'info.log');
+    }
+
+    /** @test */
+    public function log_file_is_created(): void
+    {
+        $this->logger->logSuccess('Test log');
+
+        $this->assertFileExists(__DIR__ . '/../../test.log');
+    }
+
+    /** @test */
+    public function log_file_contains_success_message(): void
+    {
+        $this->logger->logSuccess('Test success');
+        $record = 'SUCCESS: Test success' . PHP_EOL;
+        $fileContent = file_get_contents($this->logger->getFileLocation());
+
+        $this->assertEquals($fileContent, $record);
+    }
+
+     /** @test */
+     public function log_file_contains_error_message(): void
+     {
+        $this->logger->logError('Test error');
+        $record = 'ERROR: Test error' . PHP_EOL;
+        $fileContent = file_get_contents($this->logger->getFileLocation());
+
+        $this->assertEquals($fileContent, $record);
+     }
 
     /** @test */
     public function console_output_is_visible(): void
@@ -20,5 +58,14 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         $record = 'SUCCESS: Test log' . PHP_EOL;
 
         $this->expectOutputString($record);
+    }
+
+    public function tearDown(): void
+    {
+        $logFile = $this->logger->getFileLocation();
+
+        if (file_exists($logFile)) {
+            unlink($logFile);
+        }
     }
 }
