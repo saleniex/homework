@@ -1,27 +1,15 @@
 <?php
 
+require_once "LoggerInterface.php";
+require_once "ConsoleLogger.php";
+require_once "FileLogger.php";
 
 class Logger
 {
-    public static function get()
+    public static function get(): LoggerInterface
     {
-        return new Logger();
+        // To switch between logging in console or in file, return must be changed either to FileLogger or ConsoleLogger
+        return new FileLogger();
     }
 
-    public function logError(string $message): void
-    {
-        $this->log("ERROR: ", $message);
-    }
-
-    public function logSuccess(string $message): void
-    {
-        $this->log("SUCCESS: ", $message);
-    }
-
-    private function log(string $event, string $message): void
-    {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, $event . $message . PHP_EOL);
-        fclose($logFile);
-    }
 }
