@@ -8,16 +8,20 @@ class Logger
         return new Logger();
     }
 
-    public function logError($message)
+    public function logError(string $message): void
     {
-        $logFile = fopen('application.log', 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
+        $this->log("ERROR: ", $message);
     }
 
-    public function logSuccess($msg)
+    public function logSuccess(string $message): void
+    {
+        $this->log("SUCCESS: ", $message);
+    }
+
+    private function log(string $event, string $message): void
     {
         $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
+        fwrite($logFile, $event . $message . PHP_EOL);
+        fclose($logFile);
     }
 }
