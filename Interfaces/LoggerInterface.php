@@ -1,5 +1,7 @@
 <?php
 
+namespace Interfaces;
+
 interface LoggerInterface
 {
     public function logSuccess(string $message): void;

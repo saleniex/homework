@@ -1,15 +1,17 @@
 <?php
 
-require_once "LoggerInterface.php";
-require_once "ConsoleLogger.php";
-require_once "FileLogger.php";
+require "vendor/autoload.php";
+
+use Classes\ConsoleLogger;
+use Interfaces\LoggerInterface;
+use Classes\FileLogger;
 
 class Logger
 {
     public static function get(): LoggerInterface
     {
-        // To switch between logging in console or in file, return must be changed either to FileLogger or ConsoleLogger
-        return new FileLogger();
+        // To switch between console log or file log, return must be set either to new FileLogger() or new ConsoleLogger()
+        return new ConsoleLogger();
     }
 
 }

@@ -1,8 +1,10 @@
 <?php
 
-require 'vendor/autoload.php';
+namespace Classes;
 
-class ConsoleLogger implements LoggerInterface
+use Interfaces\LoggerInterface;
+
+class FileLogger implements LoggerInterface
 {
     public function logError(string $message): void
     {
@@ -16,7 +18,8 @@ class ConsoleLogger implements LoggerInterface
 
     public function log(string $event, string $message): void
     {
-        // "j" is a standard "log" function built in "kint-js" composer package (see composer.json).
-        j($event . $message . PHP_EOL);
+        $logFile = fopen('application.log', 'a');
+        fwrite($logFile, $event . $message . PHP_EOL);
+        fclose($logFile);
     }
 }

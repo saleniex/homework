@@ -1,6 +1,10 @@
 <?php
 
-class FileLogger implements LoggerInterface
+namespace Classes;
+
+use Interfaces\LoggerInterface;
+
+class ConsoleLogger implements LoggerInterface
 {
     public function logError(string $message): void
     {
@@ -14,8 +18,7 @@ class FileLogger implements LoggerInterface
 
     public function log(string $event, string $message): void
     {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, $event . $message . PHP_EOL);
-        fclose($logFile);
+        // "j" is a standard "log" function built in "kint-js" composer package (see composer.json).
+        j($event . $message . PHP_EOL);
     }
 }
