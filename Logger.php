@@ -1,23 +1,17 @@
 <?php
 
+require "vendor/autoload.php";
+
+use Classes\ConsoleLogger;
+use Interfaces\LoggerInterface;
+use Classes\FileLogger;
 
 class Logger
 {
-    public static function get()
+    public static function get(): LoggerInterface
     {
-        return new Logger();
+        // To switch between console log or file log, return must be set either to new FileLogger() or new ConsoleLogger()
+        return new ConsoleLogger();
     }
 
-    public function logError($message)
-    {
-        $logFile = fopen('application.log', 'w');
-        fwrite($logFile, 'ERROR: ' . $message);
-        fclose($logFile);
-    }
-
-    public function logSuccess($msg)
-    {
-        $logFile = fopen('application.log', 'a');
-        fwrite($logFile, 'SUCCESS: ' . $msg);
-    }
 }

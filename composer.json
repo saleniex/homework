@@ -1,0 +1,15 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Classes\\": "Classes/",
+      "Interfaces\\": "Interfaces/",
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "phpunit/phpunit": "8.*",
+    "kint-php/kint-js": "^2.0"
+
+  }
+}
